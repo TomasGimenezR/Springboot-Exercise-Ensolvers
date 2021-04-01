@@ -3,10 +3,7 @@ package com.taskmanager.Ensolvers.controller;
 import com.taskmanager.Ensolvers.model.Task;
 import com.taskmanager.Ensolvers.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +18,10 @@ public class TaskController {
     @GetMapping("/task")
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
+    }
+
+    @PostMapping("/task")
+    public Task createTask(@RequestBody Task task) {
+        return taskRepository.save(task);
     }
 }

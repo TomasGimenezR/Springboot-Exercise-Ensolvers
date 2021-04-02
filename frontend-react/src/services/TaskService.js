@@ -14,6 +14,10 @@ class TaskService {
     changeCompletion(taskId) {
         return axios.patch(`${TASK_API_BASE_URL}/change-completion/${taskId}`);
     }
+
+    deleteTask(taskId) {
+        return axios.delete(`${TASK_API_BASE_URL}/${taskId}`);
+    }
 }
 
 export default new TaskService();

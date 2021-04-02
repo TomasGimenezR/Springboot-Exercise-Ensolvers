@@ -11,11 +11,17 @@ class ListTasksComponent extends Component {
         }
 
         this.editTask = this.editTask.bind(this);
+        this.deleteTask = this.deleteTask.bind(this);
 
     }
 
     editTask() {
         
+    }
+
+    deleteTask(taskId) {
+        TaskService.deleteTask(taskId)
+            .then(res => window.location.reload())
     }
 
     changeCompletion(taskId){
@@ -51,6 +57,7 @@ class ListTasksComponent extends Component {
                                     <td>{task.description}</td>
                                     <td>
                                         <button onClick={() => this.editTask(task.id)} className="btn btn-info">Update</button>
+                                        <button style={{marginLeft: "10px"}} onClick={() => this.deleteTask(task.id)} className="btn btn-danger">Delete</button>
                                     </td>
 
                                 </tr>

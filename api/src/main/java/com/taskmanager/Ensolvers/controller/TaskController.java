@@ -54,5 +54,13 @@ public class TaskController {
         return ResponseEntity.ok(updatedTask);
     }
 
+    @DeleteMapping("/task/{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+
+        taskRepository.delete(task);
+        return ResponseEntity.ok(task);
+    }
 
 }

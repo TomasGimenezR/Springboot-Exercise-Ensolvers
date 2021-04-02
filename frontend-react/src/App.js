@@ -5,6 +5,7 @@ import ListTasksComponent from './components/ListTasksComponent';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateTasksComponent from './components/CreateTasksComponent';
+import FolderManagementComponent from './components/FolderManagementComponent';
 
 function App() {
 	return (
@@ -13,6 +14,7 @@ function App() {
 				<div className="container">
 					<ListTasksComponent/>
 					<CreateTasksComponent/>
+					<FolderManagementComponent/>
 				</div>
 				<FooterComponent/>
 			</div>

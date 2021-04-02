@@ -54,6 +54,18 @@ public class TaskController {
         return ResponseEntity.ok(updatedTask);
     }
 
+    @PatchMapping("/task/set-folder/{id}")
+    public ResponseEntity<Task> setFolder(@PathVariable Long id, @RequestBody Task taskDetails) {
+        Task task = taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+        task.setFolderId(taskDetails.getFolderId());
+
+        //CHECK IF FOLDER EXISTS
+
+        Task updatedTask = taskRepository.save(task);
+        return ResponseEntity.ok(updatedTask);
+    }
+
     @DeleteMapping("/task/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id)

@@ -13,6 +13,8 @@ public class Task {
     private String description;
     @Column(name = "completed")
     private boolean completed;
+    @Column(name = "folderId")
+    private long folderId;
 
     public Task() {
     }
@@ -20,6 +22,7 @@ public class Task {
     public Task(String description, boolean completed) {
         this.description = description;
         this.completed = completed;
+        this.folderId = -1;
     }
 
     public long getId() {
@@ -44,5 +47,13 @@ public class Task {
 
     public void setCompleted(boolean completed) {
         this.completed = completed;
+    }
+
+    public long getFolderId() {
+        return folderId;
+    }
+
+    public void setFolderId(long folderId) {
+        this.folderId = folderId;
     }
 }

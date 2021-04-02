@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FolderService from '../services/FolderService';
 
 class FolderManagementComponent extends Component {
     constructor(props){
@@ -6,7 +7,23 @@ class FolderManagementComponent extends Component {
 
         this.state = {
             folders: [],
+            name: ''
         }
+        this.changeNameHandler = this.changeNameHandler.bind(this);
+        this.saveFolder = this.saveFolder.bind(this);
+    }
+
+    saveFolder = (e) => {
+        e.preventDefault();
+        let folder = {name: this.state.name};
+        // console.log('Folder => ' + JSON.stringify(folder));
+
+        FolderService.createFolder(folder)
+            .then(res => window.location.reload())
+    }
+
+    changeNameHandler = (event) => {
+        this.setState({name: event.target.value})
     }
     
     render() {

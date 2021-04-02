@@ -24,7 +24,7 @@ public class FolderController {
     @GetMapping("/folder/{id}")
     public ResponseEntity<Folder> getFolderById(@PathVariable Long id) {
         Folder folder = folderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Folder with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Folder with Id " + id));
         return ResponseEntity.ok(folder);
     }
 
@@ -36,7 +36,7 @@ public class FolderController {
     @DeleteMapping("/folder/{id}")
     public ResponseEntity<Folder> deleteFolder(@PathVariable Long id) {
         Folder folder = folderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Folder with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Folder with Id " + id));
         folderRepository.delete(folder);
         return ResponseEntity.ok(folder);
     }

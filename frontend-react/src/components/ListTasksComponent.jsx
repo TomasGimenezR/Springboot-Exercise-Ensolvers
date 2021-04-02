@@ -6,8 +6,20 @@ class ListTasksComponent extends Component {
         super(props)
 
         this.state = {
-            tasks: []
+            tasks: [],
+            description: ''
         }
+
+        this.editTask = this.editTask.bind(this);
+
+    }
+
+    editTask() {
+        
+    }
+
+    changeCompletion(taskId){
+        TaskService.changeCompletion(taskId);
     }
 
     componentDidMount() {
@@ -16,6 +28,7 @@ class ListTasksComponent extends Component {
                 this.setState({ tasks: res.data })
             })
     }
+
     render() {
         return (
             <div>
@@ -34,9 +47,11 @@ class ListTasksComponent extends Component {
                             this.state.tasks.map(
                                 task =>
                                 <tr key = {task.id}>
-                                    <td><input type="checkbox" defaultChecked={task.completed}></input></td>
+                                    <td><input type="checkbox" defaultChecked={task.completed} onChange={() => this.changeCompletion(task.id)}></input></td>
                                     <td>{task.description}</td>
-                                    <td></td>
+                                    <td>
+                                        <button onClick={() => this.editTask(task.id)} className="btn btn-info">Update</button>
+                                    </td>
 
                                 </tr>
                             )

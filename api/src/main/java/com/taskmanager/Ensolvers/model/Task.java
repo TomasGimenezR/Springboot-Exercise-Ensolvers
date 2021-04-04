@@ -2,7 +2,7 @@ package com.taskmanager.Ensolvers.model;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "tasks")
 @Table(name = "tasks")
 public class Task {
 
@@ -13,8 +13,8 @@ public class Task {
     private String description;
     @Column(name = "completed")
     private boolean completed;
-    @Column(name = "folderId")
-    private long folderId;
+    @Column(name = "folder_id")
+    private long folder_id;
 
     public Task() {
     }
@@ -22,7 +22,7 @@ public class Task {
     public Task(String description, boolean completed) {
         this.description = description;
         this.completed = completed;
-        this.folderId = -1;
+        this.folder_id = -1;
     }
 
     public long getId() {
@@ -49,11 +49,11 @@ public class Task {
         this.completed = completed;
     }
 
-    public long getFolderId() {
-        return folderId;
+    public long getFolder_id() {
+        return folder_id;
     }
 
-    public void setFolderId(long folderId) {
-        this.folderId = folderId;
+    public void setFolder_id(long folder_id) {
+        this.folder_id = folder_id;
     }
 }

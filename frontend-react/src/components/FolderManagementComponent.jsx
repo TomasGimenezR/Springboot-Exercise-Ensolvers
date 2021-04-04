@@ -22,13 +22,25 @@ class FolderManagementComponent extends Component {
             .then(res => window.location.reload())
     }
 
+    deletefolder(folderId) {
+        FolderService.deleteFolder(folderId)
+            .then(res => window.location.reload())
+    }
+
     changeNameHandler = (event) => {
         this.setState({name: event.target.value})
+    }
+
+    componentDidMount() {
+        FolderService.getFolders()
+            .then((res) => {
+                this.setState({ folders: res.data })
+            })
     }
     
     render() {
         return (
-            <div style={{marginTop: "30px"}} className="row">
+            <div style={{marginTop: "30px", marginBottom: "30px"}} className="row">
                 <div className="card col-md-8 offset-md-2 offset-md-2">
                     <h3 className="text-center">Folder Management</h3>
                     <div className="card-body">
@@ -45,8 +57,7 @@ class FolderManagementComponent extends Component {
                                         this.state.folders.map(
                                             folder =>
                                             <tr key = {folder.id}>
-                                                <td><input type="checkbox" defaultChecked={folder.completed} onChange={() => this.changeCompletion(folder.id)}></input></td>
-                                                <td>{folder.description}</td>
+                                                <td>{folder.name}</td>
                                                 <td>
                                                     <button onClick={() => this.viewItems(folder.id)} className="btn btn-info">View Items</button>
                                                     <button style={{marginLeft: "10px"}} onClick={() => this.deletefolder(folder.id)} className="btn btn-danger">Delete</button>

@@ -17,6 +17,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Query("DELETE FROM tasks t WHERE t.folder_id=?1")
     void deleteTasksInFolder(long folder_id);
 
-    @Query("SELECT t FROM tasks t WHERE t.id=?1;")
+    @Query("SELECT t FROM tasks t WHERE t.folder_id=?1")
     List<Task> getTasksInFolder(long id);
 }

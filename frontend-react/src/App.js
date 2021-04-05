@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-// import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import ListTasksComponent from './components/ListTasksComponent';
 import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
@@ -12,9 +11,13 @@ function App() {
 			<div className="App">
 				<HeaderComponent/>
 				<div className="container">
-					<ListTasksComponent/>
-					<CreateTasksComponent/>
-					<FolderManagementComponent/>
+					<div class="contDashboard">
+						<CreateTasksComponent/>
+						<FolderManagementComponent/>
+					</div>
+					<div class="contList">
+						<ListTasksComponent/>
+					</div>
 				</div>
 				<FooterComponent/>
 			</div>

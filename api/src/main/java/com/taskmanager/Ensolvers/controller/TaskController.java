@@ -2,6 +2,7 @@ package com.taskmanager.Ensolvers.controller;
 
 import com.taskmanager.Ensolvers.exception.ResourceNotFoundException;
 import com.taskmanager.Ensolvers.model.Task;
+import com.taskmanager.Ensolvers.repository.FolderRepository;
 import com.taskmanager.Ensolvers.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ public class TaskController {
 
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private FolderRepository folderRepository;
 
     /**
      * Lists all Tasks
@@ -34,7 +37,7 @@ public class TaskController {
     @GetMapping("/task/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
         return ResponseEntity.ok(task);
     }
 
@@ -57,7 +60,7 @@ public class TaskController {
     @PatchMapping("/task/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
         task.setDescription(taskDetails.getDescription());
 
         Task updatedTask = taskRepository.save(task);
@@ -72,7 +75,7 @@ public class TaskController {
     @PatchMapping("/task/change-completion/{id}")
     public ResponseEntity<Task> changeCompletionTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
         task.setCompleted(!task.isCompleted());
 
         Task updatedTask = taskRepository.save(task);
@@ -82,18 +85,20 @@ public class TaskController {
     /**
      * Moves Task to a Folder
      * @param id Id of Task to move
-     * @param taskDetails Folder to send Task to
+     * @param taskDetails Content to update
      * @return Updated Task
      */
     @PatchMapping("/task/set-folder/{id}")
     public ResponseEntity<Task> setFolder(@PathVariable Long id, @RequestBody Task taskDetails) {
+        Task updatedTask = null;
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
         task.setFolder_id(taskDetails.getFolder_id());
 
-        //CHECK IF FOLDER EXISTS
-
-        Task updatedTask = taskRepository.save(task);
+        if(!folderRepository.findById(taskDetails.getFolder_id()).isEmpty())
+            updatedTask = taskRepository.save(task);
+        else
+            throw new ResourceNotFoundException("Couldn't find Task with Id " + id);
         return ResponseEntity.ok(updatedTask);
     }
 
@@ -105,7 +110,7 @@ public class TaskController {
     @DeleteMapping("/task/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't found Task with Id " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
 
         taskRepository.delete(task);
         return ResponseEntity.ok(task);

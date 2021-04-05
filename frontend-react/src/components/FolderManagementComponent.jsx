@@ -13,6 +13,10 @@ class FolderManagementComponent extends Component {
         this.saveFolder = this.saveFolder.bind(this);
     }
 
+    /**
+     * Creates new Folder using name saved in state
+     * @param e Event occurred
+     */
     saveFolder = (e) => {
         e.preventDefault();
         let folder = {name: this.state.name};
@@ -22,11 +26,19 @@ class FolderManagementComponent extends Component {
             .then(res => window.location.reload())
     }
 
+    /**
+     * Deletes Folder
+     * @param folderId Id of Folder to delete
+     */
     deletefolder(folderId) {
         FolderService.deleteFolder(folderId)
             .then(res => window.location.reload())
     }
 
+    /**
+     * Assigns name in state the value of the name input modified
+     * @param event Event occurred
+     */
     changeNameHandler = (event) => {
         this.setState({name: event.target.value})
     }
@@ -40,11 +52,15 @@ class FolderManagementComponent extends Component {
     
     render() {
         return (
-            <div style={{marginTop: "30px", marginBottom: "30px"}} className="row">
-                <div className="card col-md-8 offset-md-2 offset-md-2">
+            <div className="row rowFolder">
+                <div className="card col-md-12">
                     <h3 className="text-center">Folder Management</h3>
                     <div className="card-body">
-                        <div>
+                        <form className="newFolderForm">
+                            <input type="text" placeholder="New Folder Name" value={this.state.description} className="form-control" onChange={this.changeNameHandler}/>
+                            <button className="btn btn-success" onClick={this.saveFolder}>Add</button>
+                        </form>
+                        <div className="contFolderList">
                             <table className="table table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -69,12 +85,6 @@ class FolderManagementComponent extends Component {
                                 </tbody>
                             </table>
                         </div>
-                        <form>
-                            <label>Folder name: </label>
-                            <input type="text" placeholder="New Folder" value={this.state.description} className="form-control" onChange={this.changeNameHandler}/>
-                            <br/>
-                            <button className="btn btn-success" onClick={this.saveFolder}>Add</button>
-                        </form>
                     </div>
                 </div>
             </div>

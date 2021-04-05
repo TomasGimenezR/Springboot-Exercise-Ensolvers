@@ -5,20 +5,23 @@ import HeaderComponent from './components/HeaderComponent';
 import FooterComponent from './components/FooterComponent';
 import CreateTasksComponent from './components/CreateTasksComponent';
 import FolderManagementComponent from './components/FolderManagementComponent';
+import ContentComponent from './components/ContentComponent';
 
 function App() {
 	return (
 			<div className="App">
 				<HeaderComponent/>
-				<div className="container">
-					<div class="contDashboard">
+				{/* <div className="container"> */}
+					<ContentComponent/>
+					{/* <div class="contDashboard">
+						
 						<CreateTasksComponent/>
 						<FolderManagementComponent/>
 					</div>
 					<div class="contList">
 						<ListTasksComponent/>
-					</div>
-				</div>
+					</div> */}
+				{/* </div> */}
 				<FooterComponent/>
 			</div>
 	);

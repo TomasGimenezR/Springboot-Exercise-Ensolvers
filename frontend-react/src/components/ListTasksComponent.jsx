@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import TaskService from '../services/TaskService';
-import CreateTasksComponent from './CreateTasksComponent';
 class ListTasksComponent extends Component {
     constructor(props){
         super(props)

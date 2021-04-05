@@ -73,9 +73,12 @@
   padding: 30px 0;
 }
 
-.newFolderForm{
+.newFolderForm {
   display: flex;
-  margin-bottom: 25px;
+}
+
+.fullTaskList {
+  margin: 30px;
 }
 
 .newFolderForm button {

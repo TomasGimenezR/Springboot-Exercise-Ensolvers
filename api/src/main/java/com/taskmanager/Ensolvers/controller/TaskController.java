@@ -68,7 +68,7 @@ public class TaskController {
     }
 
     /**
-     * Marks Task as completed if incomplete, or as incomplete is completed
+     * Marks Task as completed if incomplete, or as incomplete if completed
      * @param id Id of Task to change completion
      * @return Updated Task
      */
@@ -91,14 +91,15 @@ public class TaskController {
     @PatchMapping("/task/set-folder/{id}")
     public ResponseEntity<Task> setFolder(@PathVariable Long id, @RequestBody Task taskDetails) {
         Task updatedTask = null;
+        long folderId = taskDetails.getFolder_id();
         Task task = taskRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
-        task.setFolder_id(taskDetails.getFolder_id());
+        task.setFolder_id(folderId);
 
-        if(!folderRepository.findById(taskDetails.getFolder_id()).isEmpty())
+        if(!folderRepository.findById(folderId).isEmpty())
             updatedTask = taskRepository.save(task);
         else
-            throw new ResourceNotFoundException("Couldn't find Task with Id " + id);
+            throw new ResourceNotFoundException("Couldn't find Folder with Id " + folderId);
         return ResponseEntity.ok(updatedTask);
     }
 

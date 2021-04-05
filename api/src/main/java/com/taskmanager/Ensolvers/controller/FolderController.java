@@ -40,6 +40,11 @@ public class FolderController {
         return ResponseEntity.ok(folder);
     }
 
+    /**
+     * Creates new Folder
+     * @param folder Data to create Folder from
+     * @return New created Folder
+     */
     @PostMapping("/folder")
     public Folder createFolder(@RequestBody Folder folder) {
         return folderRepository.save(folder);

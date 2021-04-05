@@ -12,6 +12,7 @@ class ContentComponent extends Component {
             taskId: '',
             folders: [],
             folderName: '',
+            selectedOption:'',
             addUpdateTitle: 'Add Task',
             buttonState: 'Add'
         }
@@ -28,9 +29,9 @@ class ContentComponent extends Component {
     }
 
     /**
-     * 
-     * @param {*} taskId 
-     * @param {*} taskDescription 
+     * Edit Task description
+     * @param {*} taskId Id of Task to be updated
+     * @param {*} taskDescription Description to be added to Task
      */
     editTask(taskId, taskDescription) {
         this.setState({ 
@@ -48,6 +49,18 @@ class ContentComponent extends Component {
      deleteTask(taskId) {
         TaskService.deleteTask(taskId)
             .then(res => window.location.reload())
+    }
+
+    /**
+     * Moves Task to Folder
+     * @param folder_id Id of Folder to move Task to 
+     * @param taskId Id of Task to move to Folder
+     */
+    sendToFolder(folder_id, taskId) {
+        TaskService.sendToFolder({
+            id: taskId,
+            folder_id
+        }).then(res => window.location.reload())
     }
 
     /**
@@ -102,8 +115,8 @@ class ContentComponent extends Component {
     }
 
     /**
-     * 
-     * @param {*} folderId 
+     * View Tasks in Folder
+     * @param folderId Id of Folder to see Tasks from
      */
     viewFolderItems(folderId) {
         TaskService.getTasksFromFolder(folderId)
@@ -119,6 +132,14 @@ class ContentComponent extends Component {
     deletefolder(folderId) {
         FolderService.deleteFolder(folderId)
             .then(res => window.location.reload())
+    }
+
+    /**
+     * Saves Id of Folder to send Task to
+     * @param selectedFolderId Id of Folder to send Task to
+     */
+    changeSelectedFolder(selectedFolderId) {
+        this.setState({ selectedOption: selectedFolderId})
     }
 
     /**
@@ -143,7 +164,7 @@ class ContentComponent extends Component {
     render() {
         return (
             <div className="container">
-                <div class="contDashboard">
+                <div className="contDashboard">
                     {/* Task Creation */}
                     <div className="row">
                         <div className="card col-md-12">
@@ -195,7 +216,7 @@ class ContentComponent extends Component {
                     </div>
                 </div>
                 {/* Tasks List */}
-                <div class="contList">
+                <div className="contList">
                     <button onClick={() => window.location.reload()} className="btn btn-info fullTaskList">Full Task List</button>
                     <table className="table table-striped table-bordered">
                         <thead>
@@ -215,7 +236,7 @@ class ContentComponent extends Component {
                                         <td>
                                             <button onClick={() => {this.editTask(task.id, task.description)}} className="btn btn-info">Update</button>
                                             <button style={{marginLeft: "10px"}} onClick={() => this.deleteTask(task.id)} className="btn btn-danger">Delete</button>
-                                            <select style={{marginLeft: "10px"}} onChange={() => this.sendToFolder(task.id)} value={this.state.value} name="" id="">
+                                            <select style={{marginLeft: "10px"}} onChange={(e) =>  this.sendToFolder(e.target.value, task.id)} name="aa" id="">
                                                 <option value="">Send to Folder...</option>
                                                 {this.state.folders.map(
                                                     folder =>

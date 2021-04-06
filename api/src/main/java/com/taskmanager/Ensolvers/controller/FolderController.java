@@ -47,7 +47,10 @@ public class FolderController {
      */
     @PostMapping("/folder")
     public Folder createFolder(@RequestBody Folder folder) {
-        return folderRepository.save(folder);
+        if(folder.getName() == "")
+            return null;
+        else
+            return folderRepository.save(folder);
     }
 
     /**

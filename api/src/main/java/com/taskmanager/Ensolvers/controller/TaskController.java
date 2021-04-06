@@ -5,6 +5,7 @@ import com.taskmanager.Ensolvers.model.Task;
 import com.taskmanager.Ensolvers.repository.FolderRepository;
 import com.taskmanager.Ensolvers.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +49,10 @@ public class TaskController {
      */
     @PostMapping("/task")
     public Task createTask(@RequestBody Task task) {
-        return taskRepository.save(task);
+        if(task.getDescription() == "")
+            return null;
+        else
+            return taskRepository.save(task);
     }
 
     /**
@@ -59,12 +63,16 @@ public class TaskController {
      */
     @PatchMapping("/task/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task taskDetails) {
-        Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
-        task.setDescription(taskDetails.getDescription());
+        if(taskDetails.getDescription() == "")
+            return new ResponseEntity("Description must not be empty", HttpStatus.BAD_REQUEST);
+        else {
+            Task task = taskRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Couldn't find Task with Id " + id));
+            task.setDescription(taskDetails.getDescription());
 
-        Task updatedTask = taskRepository.save(task);
-        return ResponseEntity.ok(updatedTask);
+            Task updatedTask = taskRepository.save(task);
+            return ResponseEntity.ok(updatedTask);
+        }
     }
 
     /**
